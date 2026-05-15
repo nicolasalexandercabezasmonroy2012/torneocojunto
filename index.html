@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      /**
+       * file:// y el aviso "URLs are treated as unique security origins"
+       * ----------------------------------------------------------------
+       * No es un fallo de esta página: el navegador trata cada archivo
+       * file:// como un ORIGEN distinto (como si fuera otro dominio).
+       * Así evita que una página local acceda a datos de otra ruta o a
+       * un iframe distinto. Chrome a veces lo muestra al abrir desde
+       * file:// o desde una vista previa en marco (misma URL, mismo aviso).
+       *
+       * Si todo carga (CSS + llave) puedes ignorarlo. Para desarrollo sin
+       * ese contexto usa HTTP: ejecuta start-torneo.bat y abre
+       * http://localhost:3456
+       *
+       * Lo siguiente solo ayuda a que css/ y js/ resuelvan bien la ruta.
+       */
+      (function () {
+        try {
+          if (typeof location !== "undefined" && location.protocol === "file:") {
+            var b = document.createElement("base");
+            b.href = new URL(".", location.href).href;
+            document.head.insertBefore(b, document.head.firstChild);
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="color-scheme" content="dark" />
+    <title>Tabla de Clasificación — Los Cerezos World Cup 2026</title>
+    <link rel="stylesheet" href="./css/bracket.css" />
+  </head>
+  <body class="lcwc-body">
+    <div class="ambient-fx" aria-hidden="true">
+      <div class="ambient-fx__glow ambient-fx__glow--gold"></div>
+      <div class="ambient-fx__glow ambient-fx__glow--green"></div>
+      <div class="ambient-fx__glow ambient-fx__glow--red"></div>
+      <div class="ambient-fx__scan"></div>
+      <div class="ambient-fx__confetti"></div>
+    </div>
+
+    <main class="page lcwc-page">
+      <!-- Hero principal: más gráfico y llamativo -->
+      <header class="hero-mundial">
+        <div class="hero-mundial__corner hero-mundial__corner--tl">WC</div>
+        <div class="hero-mundial__corner hero-mundial__corner--tr">2026</div>
+        <div class="hero-mundial__rings" aria-hidden="true"></div>
+
+        <div class="hero-mundial__grid">
+          <div class="hero-mundial__side hero-mundial__side--left">
+            <div class="hero-badge hero-badge--verde">
+              <span class="hero-badge__ico" aria-hidden="true">⚽</span>
+              <span class="hero-badge__txt">Eliminación directa</span>
+            </div>
+            <div class="hero-badge hero-badge--dorado">
+              <span class="hero-badge__ico" aria-hidden="true">🏟️</span>
+              <span class="hero-badge__txt">8 equipos en juego</span>
+            </div>
+          </div>
+
+          <div class="hero-mundial__center">
+            <div class="hero-mundial__pill-row">
+              <span class="pill-mundial">
+                <span class="pill-mundial__gold">Villavicencio, Colombia</span>
+                <span class="pill-mundial__flag" aria-hidden="true">🇨🇴</span>
+              </span>
+            </div>
+
+            <div class="hero-mundial__ball-wrap">
+              <span class="hero-mundial__ball" aria-hidden="true">⚽</span>
+              <div class="hero-mundial__ball-orbit" aria-hidden="true"></div>
+            </div>
+
+            <p class="hero-mundial__brand">
+              <span class="hero-mundial__brand-line texto-dorado-gradient text-shadow-dorado">Los Cerezos</span>
+              <span class="hero-mundial__brand-line hero-mundial__brand-line--white">World Cup</span>
+              <span class="hero-mundial__brand-line texto-dorado-gradient text-shadow-dorado">2026</span>
+            </p>
+
+            <h1 class="hero-mundial__title" id="torneo-titulo">Tabla de Clasificación del Torneo</h1>
+            <p class="hero-mundial__subtitle">
+              Vive cada cruce: goles, llaves y camino al <strong class="texto-dorado">trofeo de campeón</strong>.
+              Actualiza marcadores y mira cómo avanzan los equipos en tiempo real.
+            </p>
+
+            <div class="hero-mundial__chips">
+              <span class="hero-chip">🔥 Fase eliminatoria</span>
+              <span class="hero-chip">📣 Familias del conjunto</span>
+              <span class="hero-chip">🏆 Un solo campeón</span>
+            </div>
+          </div>
+
+          <div class="hero-mundial__side hero-mundial__side--right">
+            <div class="hero-badge hero-badge--rojo">
+              <span class="hero-badge__ico" aria-hidden="true">🏆</span>
+              <span class="hero-badge__txt">Gran final</span>
+            </div>
+            <div class="hero-badge hero-badge--azul">
+              <span class="hero-badge__ico" aria-hidden="true">🥉</span>
+              <span class="hero-badge__txt">Podio completo</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- KPIs animados -->
+      <section class="stats-strip" aria-label="Datos del torneo">
+        <article class="stat-kpi stat-kpi--pulse">
+          <span class="stat-kpi__ico" aria-hidden="true">👟</span>
+          <span class="stat-kpi__value" data-count="8" data-suffix="">0</span>
+          <span class="stat-kpi__label">Equipos en la llave</span>
+        </article>
+        <article class="stat-kpi">
+          <span class="stat-kpi__ico" aria-hidden="true">🎯</span>
+          <span class="stat-kpi__value" data-count="8" data-suffix="">0</span>
+          <span class="stat-kpi__label">Partidos totales</span>
+        </article>
+        <article class="stat-kpi">
+          <span class="stat-kpi__ico" aria-hidden="true">⚡</span>
+          <span class="stat-kpi__value" data-count="4" data-suffix="">0</span>
+          <span class="stat-kpi__label">Cuartos de final</span>
+        </article>
+        <article class="stat-kpi">
+          <span class="stat-kpi__ico" aria-hidden="true">🌟</span>
+          <span class="stat-kpi__value" data-count="1" data-suffix="">0</span>
+          <span class="stat-kpi__label">Campeón</span>
+        </article>
+      </section>
+
+      <!-- Camino visual al título -->
+      <section class="fases-show" aria-labelledby="fases-titulo">
+        <div class="fases-show__head">
+          <h2 class="fases-show__title" id="fases-titulo">Camino al título</h2>
+          <p class="fases-show__lead">Cuatro etapas. Una sola copa. Así se lee la llave de punta a punta.</p>
+        </div>
+        <ol class="fases-show__track">
+          <li class="fase-node fase-node--live">
+            <span class="fase-node__badge">01</span>
+            <span class="fase-node__ico" aria-hidden="true">🥊</span>
+            <span class="fase-node__name">Cuartos</span>
+            <span class="fase-node__hint">4 duelos</span>
+          </li>
+          <li class="fase-node__arrow" aria-hidden="true">▶</li>
+          <li class="fase-node">
+            <span class="fase-node__badge">02</span>
+            <span class="fase-node__ico" aria-hidden="true">⚔️</span>
+            <span class="fase-node__name">Semis</span>
+            <span class="fase-node__hint">2 duelos</span>
+          </li>
+          <li class="fase-node__arrow" aria-hidden="true">▶</li>
+          <li class="fase-node">
+            <span class="fase-node__badge">03</span>
+            <span class="fase-node__ico" aria-hidden="true">🎖️</span>
+            <span class="fase-node__name">Final</span>
+            <span class="fase-node__hint">1 duelo</span>
+          </li>
+          <li class="fase-node__arrow" aria-hidden="true">▶</li>
+          <li class="fase-node fase-node--copa">
+            <span class="fase-node__badge">🏆</span>
+            <span class="fase-node__ico fase-node__ico--xl" aria-hidden="true">👑</span>
+            <span class="fase-node__name">Campeón</span>
+            <span class="fase-node__hint">Leyenda</span>
+          </li>
+        </ol>
+      </section>
+
+      <div class="mundial-divider mundial-divider--wide" aria-hidden="true"></div>
+
+      <!-- Bloque llave -->
+      <section class="tournament-section" aria-labelledby="torneo-subtitulo">
+        <div class="tournament-section__intro">
+          <p class="tournament-section__kicker" id="torneo-subtitulo">Seguimiento en vivo de la eliminatoria</p>
+          <p class="tournament-section__copy">
+            Escribe los <strong>goles o puntos</strong> en cada partido: el ganador brilla en verde y pasa solo a la
+            siguiente ronda. La final define al campeón; el partido de consolación define el
+            <strong class="texto-dorado">3er lugar</strong>.
+          </p>
+        </div>
+
+        <div class="bracket-showcase">
+          <div class="bracket-showcase__label" aria-hidden="true">
+            <span class="bracket-showcase__tag">Llave oficial</span>
+          </div>
+          <div class="bracket-shell-wrap">
+            <div class="bracket-shell-inner">
+              <div class="bracket-shell">
+                <div class="bracket" id="bracket-root">
+                  <div class="bracket__column bracket__column--round" data-round="quarters">
+                    <h2 class="bracket__round-title">Cuartos de final</h2>
+                    <div class="bracket__matches" id="matches-quarters"></div>
+                  </div>
+
+                  <div class="bracket__connectors bracket__connectors--q2s" aria-hidden="true">
+                    <span class="bracket__connector-line"></span>
+                    <span class="bracket__connector-line"></span>
+                    <span class="bracket__connector-line"></span>
+                    <span class="bracket__connector-line"></span>
+                  </div>
+
+                  <div class="bracket__column bracket__column--round" data-round="semis">
+                    <h2 class="bracket__round-title">Semifinal</h2>
+                    <div class="bracket__matches bracket__matches--spaced" id="matches-semis"></div>
+                  </div>
+
+                  <div class="bracket__connectors bracket__connectors--s2f" aria-hidden="true">
+                    <span class="bracket__connector-line bracket__connector-line--tall"></span>
+                    <span class="bracket__connector-line bracket__connector-line--tall"></span>
+                  </div>
+
+                  <div class="bracket__column bracket__column--final" data-round="final">
+                    <h2 class="bracket__round-title">Final</h2>
+                    <div class="bracket__matches" id="matches-final"></div>
+
+                    <div class="champion-block" id="champion-block">
+                      <div class="champion-block__trophy" aria-hidden="true">🏆</div>
+                      <div class="champion-block__rays" aria-hidden="true"></div>
+                      <div class="champion-block__pedestal">
+                        <div class="champion-block__plate" id="champion-name">Winner 🏆</div>
+                        <div class="champion-block__base">Campeón</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <aside class="podium-aside" aria-label="Podio">
+                    <div class="podium-card podium-card--silver">
+                      <span class="podium-card__label">2ND PLACE</span>
+                      <div class="podium-card__body" id="second-place">—</div>
+                    </div>
+                    <div class="podium-card podium-card--bronze">
+                      <span class="podium-card__label">3RD PLACE</span>
+                      <div class="podium-card__body" id="third-place">—</div>
+                    </div>
+                  </aside>
+                </div>
+
+                <div class="bronze-row">
+                  <div class="bronze-row__inner">
+                    <h3 class="bronze-row__title">Partido por el 3er lugar</h3>
+                    <p class="bronze-row__hint">Los dos equipos que cayeron en semifinal se miden por el bronce.</p>
+                    <div class="match match--compact" id="match-bronze"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Guía visual extra -->
+      <section class="tips-show" aria-labelledby="tips-titulo">
+        <h2 class="tips-show__title" id="tips-titulo">Todo lo que ves en pantalla</h2>
+        <div class="tips-show__grid">
+          <article class="tip-card">
+            <div class="tip-card__art" aria-hidden="true">✏️</div>
+            <h3 class="tip-card__name">Nombres</h3>
+            <p class="tip-card__txt">En cuartos puedes editar cada equipo. Los cruces de abajo se rellenan solos.</p>
+          </article>
+          <article class="tip-card">
+            <div class="tip-card__art" aria-hidden="true">🔢</div>
+            <h3 class="tip-card__name">Marcador</h3>
+            <p class="tip-card__txt">Mete los goles: el fila verde es el que avanza. Empate = nadie pasa aún.</p>
+          </article>
+          <article class="tip-card">
+            <div class="tip-card__art" aria-hidden="true">✨</div>
+            <h3 class="tip-card__name">Líneas doradas</h3>
+            <p class="tip-card__txt">En pantalla ancha, las líneas unen cada fase como en una transmisión de copa.</p>
+          </article>
+          <article class="tip-card">
+            <div class="tip-card__art" aria-hidden="true">🎉</div>
+            <h3 class="tip-card__name">Podio</h3>
+            <p class="tip-card__txt">Campeón, subcampeón y tercero quedan exhibidos al terminar final y 3er lugar.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="cta-mundial" aria-label="Enlace al sitio del torneo">
+        <div class="cta-mundial__inner">
+          <p class="cta-mundial__tag">¿Aún no estás en el álbum?</p>
+          <p class="cta-mundial__title">Inscribe a tu equipo en la web oficial</p>
+          <a class="cta-mundial__btn" href="https://los-cerezos-wc.vercel.app/equipos/nuevo" target="_blank" rel="noopener noreferrer">
+            ⚽ Ir a inscripciones
+          </a>
+          <a class="cta-mundial__link" href="https://los-cerezos-wc.vercel.app/album" target="_blank" rel="noopener noreferrer">Ver álbum de selecciones →</a>
+        </div>
+      </section>
+
+      <footer class="page-footer">
+        <p>
+          <strong>Los Cerezos World Cup 2026</strong> · Conjunto Cerrado Los Cerezos · Villavicencio, Colombia 🇨🇴
+        </p>
+        <p class="page-footer__sub">Llave ilustrativa para seguimiento del torneo familiar.</p>
+      </footer>
+    </main>
+
+    <script src="./js/bracket.js" defer></script>
+  </body>
+</html>
